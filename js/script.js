@@ -175,7 +175,8 @@
     startY = 0,
     pullDistance = 0,
     drag = false,
-    hoverSwing = false;
+    hoverSwing = false,
+    pullFeedbackTriggered = false;
   const setSwing = (angle) => {
     zone.style.setProperty(
       "--swing-angle",
@@ -206,10 +207,11 @@
     drag = true;
     hoverSwing = false;
     pullDistance = 0;
+    pullFeedbackTriggered = false;
     startX = e.clientX;
     startY = e.clientY;
     zone.classList.add("is-pulling");
-    zone.classList.remove("is-releasing");
+    zone.classList.remove("is-releasing", "is-threshold");
     bulb.setPointerCapture(e.pointerId);
   });
   bulb.addEventListener("pointerenter", (e) => {
@@ -229,6 +231,16 @@
         dy = e.clientY - startY;
       pullDistance = Math.max(0, Math.min(110, dy));
       setPull(pullDistance, Math.max(-60, Math.min(60, dx)));
+      if (pullDistance >= pullThreshold && !pullFeedbackTriggered) {
+        pullFeedbackTriggered = true;
+        zone.classList.add("is-threshold");
+        if (
+          !reduce &&
+          (e.pointerType === "touch" || touch) &&
+          typeof navigator.vibrate === "function"
+        )
+          navigator.vibrate(12);
+      }
       return;
     }
     if (!hoverSwing || e.pointerType !== "mouse" || reduce) return;
@@ -239,7 +251,7 @@
   function end(e, canceled = false) {
     if (!drag) return;
     drag = false;
-    zone.classList.remove("is-pulling");
+    zone.classList.remove("is-pulling", "is-threshold");
     if (!canceled && pullDistance >= pullThreshold) light();
     zone.style.setProperty("--pull", "0px");
     releaseSwing();
@@ -755,9 +767,13 @@
   const heroPhoto = $("#heroPhoto");
   const triggerHeroFlick = () => {
     if (reduce) return;
-    heroPhoto.classList.remove("is-flicking");
+    const mobileHero = matchMedia(
+      "(max-width: 767px), (hover: none), (pointer: coarse)",
+    ).matches;
+    const animationClass = mobileHero ? "is-mobile-flicking" : "is-flicking";
+    heroPhoto.classList.remove("is-flicking", "is-mobile-flicking");
     void heroPhoto.offsetWidth;
-    heroPhoto.classList.add("is-flicking");
+    heroPhoto.classList.add(animationClass);
   };
   heroPhoto.addEventListener("click", triggerHeroFlick);
   heroPhoto.addEventListener("keydown", (event) => {
@@ -769,6 +785,8 @@
   heroPhoto.addEventListener("animationend", (event) => {
     if (event.animationName === "hero-flick")
       heroPhoto.classList.remove("is-flicking");
+    if (event.animationName === "portrait-vibrate")
+      heroPhoto.classList.remove("is-mobile-flicking");
   });
 
   if (!touch && !reduce) {
