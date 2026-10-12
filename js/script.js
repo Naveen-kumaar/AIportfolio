@@ -65,6 +65,21 @@
         "Responsive interface",
       ],
     },
+
+        {
+      t: "Billing software website",
+      c: ["#667f91", "#8da99c", "#547384"],
+      repo: "https://github.com/Naveen-kumaar/PatientDetailsManagement",
+      tech: ["Python", "Django_rest", "HTML","javascript","react", "CSS", "Bootstrap", "MySQL"],
+      f: [
+        "bill booking",
+        "Search",
+        "Appointment management",
+        "Authentication",
+        "Responsive interface",
+      ],
+    },
+
     {
       t: "Medicine Management System",
       c: ["#8a7b55", "#a39162", "#6f7655"],
