@@ -826,7 +826,7 @@
 
     /* Hero scene + laptop follow the mouse */
     const scene = $("#heroScene"),
-      depth = [0.4, 0.9, 1.1, 1, 1.2, 0.8, 1];
+      depth = [0.4, 0.9, 1.1, 1, 1.2, 0.8, 1, 0.7];
     if (scene) {
       scene.addEventListener(
         "pointermove",
@@ -836,7 +836,7 @@
             y = (e.clientY - r.top) / r.height - 0.5;
           $$(".layer", scene).forEach(
             (l, i) =>
-              (l.style.transform = `translate3d(${x * 18 * depth[i % 7]}px,${y * 16 * depth[i % 7]}px,0)`),
+              (l.style.transform = `translate3d(${x * 18 * depth[i % depth.length]}px,${y * 16 * depth[i % depth.length]}px,0)`),
           );
         },
         { passive: true },

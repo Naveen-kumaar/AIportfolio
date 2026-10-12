@@ -500,24 +500,66 @@ img {
   }
 }
 .hero-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  width: min(100%, 390px);
 }
 .hero-action {
-  width: 160px;
-  min-width: 160px;
-  height: 48px;
-  padding: 0.7rem 1rem;
-  border: 1px solid var(--bd);
-  border-radius: 10px;
-  background: var(--bg2);
+  display: inline-flex;
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+.hero-action-primary {
+  background: var(--a1);
+  color: var(--accent-ink);
+  box-shadow: 0 5px 14px rgba(var(--a1-rgb), 0.2);
+}
+.hero-action-secondary {
+  border-color: var(--bd);
+  background: var(--glass);
   color: var(--text);
 }
-.hero-action:hover {
-  background: var(--a1);
-  border-color: var(--a1);
-  color: var(--accent-ink);
+.hero-action i {
+  flex: 0 0 auto;
+  font-size: 1rem;
+}
+.hero-action:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+@media (hover: hover) {
+  .hero-action:hover {
+    transform: translateY(-2px);
+  }
+  .hero-action-primary:hover {
+    background: var(--cyan);
+    color: var(--accent-ink);
+    box-shadow: 0 8px 20px rgba(var(--a1-rgb), 0.25);
+  }
+  .hero-action-secondary:hover {
+    border-color: rgba(var(--a1-rgb), 0.65);
+    background: var(--bg2);
+    color: var(--a1);
+  }
 }
 .scene {
   position: relative;
@@ -717,25 +759,16 @@ img {
   border-color: var(--a1);
   box-shadow: var(--shadow), var(--glow);
 }
-.chip i,
-.chip .react-mark {
-  color: var(--a1);
+.chip-logo {
+  width: 1.35rem;
+  height: 1.35rem;
+  flex: 0 0 auto;
+  object-fit: contain;
   transition: transform 0.22s ease;
 }
-.chip:hover i,
-.chip:focus-visible i,
-.chip:hover .react-mark,
-.chip:focus-visible .react-mark {
-  transform: scale(1.35) translateY(-2px);
-}
-.chip .react-mark {
-  width: 1.2rem;
-  height: 1.2rem;
-  flex: 0 0 auto;
-  overflow: visible;
-}
-.chip i {
-  font-size: 1.1rem;
+.chip:hover .chip-logo,
+.chip:focus-visible .chip-logo {
+  transform: scale(1.08) translateY(-1px);
 }
 .c-py {
   top: 10%;
@@ -760,6 +793,10 @@ img {
 .c-react {
   top: 43%;
   right: 0;
+}
+.c-mysql {
+  top: 57%;
+  left: 0;
 }
 /* About */
 #about {
@@ -2050,6 +2087,7 @@ img {
   }
   .hero-actions {
     justify-content: center;
+    margin-inline: auto;
   }
   .scene {
     height: 420px;
@@ -2090,6 +2128,10 @@ img {
     font-size: 0.75rem;
     padding: 0.4rem 0.7rem;
   }
+  .chip-logo {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
   .project-controls {
     margin-top: -0.5rem;
   }
@@ -2097,18 +2139,14 @@ img {
     max-width: 10rem;
     line-height: 1.35;
   }
-  .btn-x {
-    padding: 0.8rem 1.3rem;
-  }
   .hero-actions {
-    gap: 0.55rem;
+    gap: 0.6rem;
   }
   .hero-action {
-    width: auto;
-    min-width: 0;
-    flex: 1 1 40%;
+    min-height: 48px;
     gap: 0.4rem;
-    padding: 0.65rem 0.4rem;
+    padding: 0.65rem 0.45rem;
+    font-size: 0.84rem;
     white-space: nowrap;
   }
   .contact-panel {
