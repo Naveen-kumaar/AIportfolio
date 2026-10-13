@@ -30,9 +30,57 @@
     ],
   };
   const PROJECTS = [
+      {
+      t: "Billing software website",
+      c: ["#667f91", "#8da99c", "#547384"],
+      images: [
+        "assets/images/billbook1.png",
+        "assets/images/bilbook2.png",
+        "assets/images/billbook3.png",
+      ],
+      repo: "https://github.com/Naveen-kumaar/PatientDetailsManagement",
+      tech: ["Python", "Django_rest", "HTML","javascript","react", "CSS", "Bootstrap", "MySQL"],
+      f: [
+        "bill booking",
+        "Search",
+        "Appointment management",
+        "Authentication",
+        "Responsive interface",
+      ],
+    },
+        {
+      t: "Quickkart Ecommerce",
+      c: ["#a77952", "#697f91", "#8a704e"],
+      images: [
+        "assets/images/Quickkart1.png",
+        "assets/images/Quickkart2.png",
+        "assets/images/Qucikkart3.png",
+      ],
+      repo: "https://github.com/Naveen-kumaar/Clonewebpage",
+      tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+      f: [],
+    },
+    
+    {
+      t: "Travel ticket booking",
+      c: ["#a77952", "#697f91", "#8a704e"],
+      images: [
+        "assets/images/Travel1.png",
+        "assets/images/travel2.png",
+        "assets/images/travel3.png",
+      ],
+      repo: "https://github.com/Naveen-kumaar/Clonewebpage",
+      tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+      f: [],
+    },
     {
       t: "E-Commerce Website",
       c: ["#9a7849", "#c39c63", "#76583a"],
+      images: [
+        "assets/images/shopkart1.png",
+        "assets/images/shopkart2.png",
+        "assets/images/shopkart3.png",
+      ],
       repo: "https://github.com/Naveen-kumaar/Ecomwebsite",
       tech: [
         "Python",
@@ -55,6 +103,11 @@
     {
       t: "Patient Details Management System",
       c: ["#667f91", "#8da99c", "#547384"],
+      images: [
+        "assets/images/patientdetail1.png",
+        "assets/images/patientdetails2.png",
+        "assets/images/patientdetail3.png",
+      ],
       repo: "https://github.com/Naveen-kumaar/PatientDetailsManagement",
       tech: ["Python", "Django", "HTML", "CSS", "Bootstrap", "MySQL"],
       f: [
@@ -66,47 +119,21 @@
       ],
     },
 
-        {
-      t: "Billing software website",
-      c: ["#667f91", "#8da99c", "#547384"],
-      repo: "https://github.com/Naveen-kumaar/PatientDetailsManagement",
-      tech: ["Python", "Django_rest", "HTML","javascript","react", "CSS", "Bootstrap", "MySQL"],
-      f: [
-        "bill booking",
-        "Search",
-        "Appointment management",
-        "Authentication",
-        "Responsive interface",
-      ],
-    },
 
-    {
-      t: "Medicine Management System",
-      c: ["#8a7b55", "#a39162", "#6f7655"],
-      repo: "https://github.com/Naveen-kumaar/tkinter_project",
-      tech: ["Python", "Tkinter", "SQL"],
-      f: [
-        "Medicine management",
-        "Search",
-        "Stock management",
-        "Price and expiry tracking",
-      ],
-    },
     {
       t: "Portfolio Website",
       c: ["#9a7849", "#6b8290", "#c39c63"],
+      images: [
+        "assets/images/portfolio1.png",
+        "assets/images/portfolio2.png",
+        "assets/images/portfolio3.png",
+      ],
       repo: "https://github.com/Naveen-kumaar/Official_Portfolio",
       demo: "https://official-portfolio-opal.vercel.app",
       tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
       f: [],
     },
-    {
-      t: "Landing Page",
-      c: ["#a77952", "#697f91", "#8a704e"],
-      repo: "https://github.com/Naveen-kumaar/Clonewebpage",
-      tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
-      f: [],
-    },
+
   ];
   const EDUCATION = [
     [
@@ -306,6 +333,8 @@
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360"><rect width="640" height="360" fill="#e9e5dc"/><rect x="16" y="16" width="608" height="328" rx="20" fill="#d8d3c9"/>${layouts[frame]}<text x="40" y="337" fill="#293342" font-family="Arial,sans-serif" font-size="11" font-weight="600">${title}</text></svg>`;
     return "data:image/svg+xml," + encodeURIComponent(svg);
   };
+  const projectImages = (project) =>
+    project.images || project.c.map((_, frame) => thumb(project, frame));
 
   const skillsWrap = $("#skillsWrap");
   if (skillsWrap)
@@ -335,16 +364,21 @@
       .join("");
 
   $("#projectGrid").innerHTML = PROJECTS.map(
-    (p, i) => `
+    (p, i) => {
+      const images = projectImages(p);
+      return `
   <div class="project-slide reveal" data-delay="${(i % 2) * 100}"><article class="project glass">
-    <div class="thumb" role="img" aria-label="Animated preview of ${p.t}">${p.c.map((_, frame) => `<img src="${thumb(p, frame)}" alt="" aria-hidden="true" loading="${i < 3 ? "eager" : "lazy"}" width="640" height="360">`).join("")}</div>
+    <div class="project-preview" role="img" aria-label="Slideshow of ${p.t}">
+      ${images.map((image) => `<div class="project-preview-slide"><img src="${image}" alt="" aria-hidden="true" loading="${i < 3 ? "eager" : "lazy"}" width="640" height="360"></div>`).join("")}
+    </div>
     <div class="p-body"><h3>${p.t}</h3>
       <div>${p.tech.map((t) => `<span class="badge-t">${t}</span>`).join("")}</div>
       ${p.f.length ? `<ul>${p.f.map((f) => `<li>${f}</li>`).join("")}</ul>` : '<div class="mb-3"></div>'}
       <div class="p-actions">
         <button class="btn-x primary sm view" type="button" data-project-view="${i}" aria-haspopup="dialog">View Project</button>
         <a href="${p.repo}" class="btn-x ghost sm" target="_blank" rel="noopener noreferrer"><i class="bi bi-github" aria-hidden="true"></i> GitHub</a>
-      </div></div></article></div>`,
+      </div></div></article></div>`;
+    },
   ).join("");
 
   const projectDialog = $("#projectDialog");
@@ -354,7 +388,7 @@
     $("#projectDialogDescription").textContent = project.demo
       ? "Explore the live project or browse its source code on GitHub."
       : "This project preview and feature summary are available here. Open the source code on GitHub to explore the implementation.";
-    $("#projectDialogGallery").innerHTML = `<div class="thumb">${project.c.map((_, frame) => `<img src="${thumb(project, frame)}" alt="" aria-hidden="true" width="640" height="360">`).join("")}</div>`;
+    $("#projectDialogGallery").innerHTML = `<div class="thumb">${projectImages(project).map((image) => `<img src="${image}" alt="" aria-hidden="true" width="640" height="360">`).join("")}</div>`;
     $("#projectDialogTech").innerHTML = project.tech
       .map((technology) => `<span class="badge-t">${technology}</span>`)
       .join("");
@@ -590,7 +624,7 @@
     pct = $("#plPct");
   $("#footerYear").textContent = new Date().getFullYear();
   document.body.style.overflow = "hidden";
-  const DURATION = reduce ? 200 : 1300,
+  const DURATION = reduce ? 100 : small ? 350 : 500,
     t0 = performance.now();
   (function tick(now) {
     const p = Math.min((now - t0) / DURATION, 1),
@@ -601,7 +635,6 @@
     else {
       pl.classList.add("done");
       document.body.style.overflow = "";
-      startReveal();
       window.setTimeout(triggerHeroFlick, 180);
       setTimeout(() => pl.remove(), 800);
     }
@@ -739,22 +772,20 @@
     $$(".skill, .project, .education-card, .service, .stat, .profile").forEach(
       (el) => {
         el.dataset.tilt = "";
-        el.dataset.aos = "flip-up";
+        if (!el.closest(".reveal")) {
+          el.dataset.aos = "fade-up";
+          if (el.dataset.delay) el.dataset.aosDelay = el.dataset.delay;
+        }
       },
     );
-    $$("main div:not(.wire):not(.bulb-mount), footer div").forEach((el) => {
-      if (el.closest(".bulb-zone")) return;
-      if (!el.hasAttribute("data-aos")) el.dataset.aos = "fade-up";
-      if (el.dataset.delay && !el.dataset.aosDelay)
-        el.dataset.aosDelay = el.dataset.delay;
-    });
+    const mobileMotion = matchMedia("(max-width: 767px)").matches;
     AOS.init({
-      duration: reduce ? 0 : 700,
+      duration: reduce ? 0 : mobileMotion ? 500 : 650,
       easing: "ease-out-cubic",
       once: true,
-      offset: 45,
+      offset: mobileMotion ? 28 : 48,
       mirror: false,
-      throttleDelay: 50,
+      throttleDelay: 16,
       disable: reduce,
     });
 
@@ -777,6 +808,7 @@
     );
     co.observe($("#stats"));
   }
+  startReveal();
 
   /* ---------- HERO FLICK + 3D TILT (cards) ---------- */
   const heroPhoto = $("#heroPhoto");

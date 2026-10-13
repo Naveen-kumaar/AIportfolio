@@ -15,4 +15,4 @@ Needs an internet connection for the Bootstrap, AOS, and Google Fonts CDNs.
 - **Contact links:** the contact section uses direct email, phone, LinkedIn and GitHub links; update their placeholders to your details.
 
 ## Notes
-Scroll reveals use AOS on content divs and respect `prefers-reduced-motion`. Cards also use subtle 3D tilt on pointer devices; decorative scroll-heavy particle effects are omitted for smoother scrolling.
+Scroll reveals use AOS on intentional content targets, initialize without waiting for the preloader, and use shorter timings on mobile. Animations respect `prefers-reduced-motion`. Cards also use subtle 3D tilt on pointer devices; decorative scroll-heavy particle effects are omitted for smoother scrolling.
