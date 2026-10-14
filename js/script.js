@@ -144,7 +144,7 @@
       "Yadava College, Madurai",
       "assets/images/yadava_collegelogo.jpg",
       "Yadava College logo",
-      "",
+      "https://www.yadavacollege.ac.in/",
     ],
     [
       "B.Sc.",
@@ -153,7 +153,7 @@
       "Syed Ammal Arts and Science College, Ramanathapuram",
       "assets/images/syedammalcollegelogo.jpg",
       "Syed Ammal Arts and Science College logo",
-      "",
+      "https://www.saasc10.com/",
     ],
     [
       "HSC",
@@ -213,6 +213,142 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const touch = matchMedia("(hover: none), (pointer: coarse)").matches;
   const small = innerWidth < 768;
+  if (!touch && !reduce) {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (context) {
+      const particles = [];
+      const maxParticles = 48;
+      let width = innerWidth;
+      let height = innerHeight;
+      let lastX = null;
+      let lastY = null;
+      let frameId = 0;
+      let lastFrameTime = 0;
+
+      canvas.className = "cursor-particle-canvas";
+      canvas.setAttribute("aria-hidden", "true");
+      document.body.append(canvas);
+
+      const resizeCanvas = () => {
+        const pixelRatio = Math.min(devicePixelRatio || 1, 2);
+        width = innerWidth;
+        height = innerHeight;
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      };
+
+      const animateParticles = (time) => {
+        const elapsed = lastFrameTime ? Math.max(time - lastFrameTime, 0) : 16;
+        const movementStep = Math.min(elapsed, 32) / 16;
+        lastFrameTime = time;
+        context.clearRect(0, 0, width, height);
+
+        for (let index = particles.length - 1; index >= 0; index -= 1) {
+          const particle = particles[index];
+          particle.age += elapsed;
+          if (particle.age >= particle.life) {
+            particles.splice(index, 1);
+            continue;
+          }
+
+          const progress = particle.age / particle.life;
+          const fade = (1 - progress) ** 2;
+          particle.x += particle.vx * movementStep;
+          particle.y += particle.vy * movementStep;
+          context.beginPath();
+          context.fillStyle = `rgba(${particle.color}, ${fade * 0.72})`;
+          context.shadowColor = `rgba(${particle.color}, ${fade * 0.55})`;
+          context.shadowBlur = particle.size * 3;
+          context.arc(
+            particle.x,
+            particle.y,
+            particle.size * (0.65 + fade * 0.35),
+            0,
+            Math.PI * 2,
+          );
+          context.fill();
+        }
+
+        context.shadowBlur = 0;
+        if (particles.length) {
+          frameId = requestAnimationFrame(animateParticles);
+        } else {
+          frameId = 0;
+          lastFrameTime = 0;
+        }
+      };
+
+      const addParticle = (x, y, directionX, directionY) => {
+        if (particles.length >= maxParticles) particles.shift();
+        particles.push({
+          x,
+          y,
+          vx: Math.random() * 0.7 - 0.35 - directionX * 0.2,
+          vy: Math.random() * 0.7 - 0.35 - directionY * 0.2,
+          size: 1.1 + Math.random() * 1.4,
+          age: 0,
+          life: 420 + Math.random() * 260,
+          color: Math.random() > 0.2 ? "202, 151, 67" : "245, 207, 126",
+        });
+      };
+
+      window.addEventListener(
+        "pointermove",
+        (event) => {
+          if (event.pointerType !== "mouse" && event.pointerType !== "pen") return;
+          if (lastX === null || lastY === null) {
+            addParticle(event.clientX, event.clientY, 0, 0);
+            lastX = event.clientX;
+            lastY = event.clientY;
+          } else {
+            const deltaX = event.clientX - lastX;
+            const deltaY = event.clientY - lastY;
+            const distance = Math.hypot(deltaX, deltaY);
+            if (distance >= 3) {
+              const count = Math.min(3, Math.max(1, Math.floor(distance / 10)));
+              for (let index = 1; index <= count; index += 1) {
+                const progress = index / (count + 1);
+                addParticle(
+                  lastX + deltaX * progress,
+                  lastY + deltaY * progress,
+                  Math.sign(deltaX),
+                  Math.sign(deltaY),
+                );
+              }
+              lastX = event.clientX;
+              lastY = event.clientY;
+            }
+          }
+          if (!frameId && particles.length) {
+            frameId = requestAnimationFrame(animateParticles);
+          }
+        },
+        { passive: true },
+      );
+
+      window.addEventListener(
+        "pointerleave",
+        () => {
+          lastX = null;
+          lastY = null;
+        },
+        { passive: true },
+      );
+      window.addEventListener("resize", resizeCanvas, { passive: true });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          particles.length = 0;
+          if (frameId) cancelAnimationFrame(frameId);
+          frameId = 0;
+          lastFrameTime = 0;
+          context.clearRect(0, 0, width, height);
+        }
+      });
+      resizeCanvas();
+    }
+  }
   const about = $("#about"),
     aboutLightSwitch = $("#aboutLightSwitch"),
     aboutContent = $("#aboutContent"),
@@ -738,6 +874,30 @@
   startReveal();
 
   /* ---------- HERO FLICK + 3D TILT (cards) ---------- */
+  if (!touch && !reduce) {
+    $$(".about-metric-card").forEach((card) => {
+      card.addEventListener(
+        "pointermove",
+        (event) => {
+          const bounds = card.getBoundingClientRect();
+          const x = (event.clientX - bounds.left) / bounds.width;
+          const y = (event.clientY - bounds.top) / bounds.height;
+          card.style.setProperty("--pointer-x", `${x * 100}%`);
+          card.style.setProperty("--pointer-y", `${y * 100}%`);
+          card.style.setProperty("--tilt-x", `${(x - 0.5) * 8}deg`);
+          card.style.setProperty("--tilt-y", `${(0.5 - y) * 8}deg`);
+        },
+        { passive: true },
+      );
+      card.addEventListener("pointerleave", () => {
+        card.style.removeProperty("--pointer-x");
+        card.style.removeProperty("--pointer-y");
+        card.style.removeProperty("--tilt-x");
+        card.style.removeProperty("--tilt-y");
+      });
+    });
+  }
+
   const heroPhoto = $("#heroPhoto");
   const triggerHeroFlick = () => {
     if (reduce) return;
