@@ -135,6 +135,7 @@
     },
 
   ];
+  // Set a college's final URL in the last field to make its logo link to that site.
   const EDUCATION = [
     [
       "M.Sc.",
@@ -143,6 +144,7 @@
       "Yadava College, Madurai",
       "assets/images/yadava_collegelogo.jpg",
       "Yadava College logo",
+      "",
     ],
     [
       "B.Sc.",
@@ -151,6 +153,7 @@
       "Syed Ammal Arts and Science College, Ramanathapuram",
       "assets/images/syedammalcollegelogo.jpg",
       "Syed Ammal Arts and Science College logo",
+      "",
     ],
     [
       "HSC",
@@ -159,6 +162,7 @@
       "Ayira Vaisya Higher Secondary School, Paramakudi",
       "assets/images/av_higher_secondary_school_logo.jpg",
       "Ayira Vaisya Higher Secondary School logo",
+      "",
     ],
     [
       "SSLC",
@@ -167,6 +171,7 @@
       "Ayira Vaisya Higher Secondary School, Paramakudi",
       "assets/images/av_higher_secondary_school_logo.jpg",
       "Ayira Vaisya Higher Secondary School logo",
+      "",
     ],
   ];
   const SERVICES = [
@@ -208,107 +213,25 @@
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const touch = matchMedia("(hover: none), (pointer: coarse)").matches;
   const small = innerWidth < 768;
-  /* Hanging bulb: unlock About after a deliberate downward pull. */
-  const zone = $("#bulbZone"),
-    bulb = $("#bulb"),
-    about = $("#about");
-  const pullThreshold = 70;
-  let startX = 0,
-    startY = 0,
-    pullDistance = 0,
-    drag = false,
-    hoverSwing = false,
-    pullFeedbackTriggered = false;
-  const setSwing = (angle) => {
-    zone.style.setProperty(
-      "--swing-angle",
-      Math.max(-16, Math.min(16, angle)).toFixed(2) + "deg",
+  const about = $("#about"),
+    aboutLightSwitch = $("#aboutLightSwitch"),
+    aboutContent = $("#aboutContent"),
+    aboutLightState = $("#aboutLightState");
+  aboutLightSwitch.addEventListener("click", () => {
+    const isLit = !about.classList.contains("is-lit");
+    about.classList.toggle("is-lit", isLit);
+    aboutLightSwitch.setAttribute("aria-pressed", String(isLit));
+    aboutLightSwitch.setAttribute(
+      "aria-label",
+      isLit ? "Turn studio lamp off" : "Turn studio lamp on",
     );
-  };
-  const setPull = (dy, dx) => {
-    zone.style.setProperty("--pull", dy + "px");
-    setSwing(dx * 0.22);
-  };
-  const releaseSwing = () => {
-    hoverSwing = false;
-    zone.classList.add("is-releasing");
-    setSwing(0);
-    window.setTimeout(() => zone.classList.remove("is-releasing"), 850);
-  };
-  const light = () => {
-    if (about.classList.contains("lit")) return;
-    about.classList.add("lit");
-    bulb.setAttribute("aria-expanded", "true");
-    bulb.setAttribute("aria-label", "About section revealed");
-    about.querySelector(".container").removeAttribute("aria-hidden");
-    about.querySelector(".container").removeAttribute("inert");
-    AOS.refreshHard();
-  };
-  bulb.addEventListener("pointerdown", (e) => {
-    if (e.button !== 0 || about.classList.contains("lit")) return;
-    drag = true;
-    hoverSwing = false;
-    pullDistance = 0;
-    pullFeedbackTriggered = false;
-    startX = e.clientX;
-    startY = e.clientY;
-    zone.classList.add("is-pulling");
-    zone.classList.remove("is-releasing", "is-threshold");
-    bulb.setPointerCapture(e.pointerId);
+    $(".about-light-switch-label", aboutLightSwitch).textContent = isLit
+      ? "Turn me off"
+      : "Turn me on to reveal";
+    aboutLightState.textContent = isLit ? "ON" : "OFF";
+    aboutContent.setAttribute("aria-hidden", String(!isLit));
+    aboutContent.inert = !isLit;
   });
-  bulb.addEventListener("pointerenter", (e) => {
-    if (e.pointerType !== "mouse" || reduce || about.classList.contains("lit"))
-      return;
-    hoverSwing = true;
-    zone.classList.remove("is-releasing");
-    const bounds = zone.getBoundingClientRect();
-    setSwing((e.clientX - (bounds.left + bounds.width / 2)) * 0.13);
-  });
-  bulb.addEventListener("pointerleave", (e) => {
-    if (e.pointerType === "mouse" && !drag) releaseSwing();
-  });
-  zone.addEventListener("pointermove", (e) => {
-    if (drag) {
-      const dx = e.clientX - startX,
-        dy = e.clientY - startY;
-      pullDistance = Math.max(0, Math.min(110, dy));
-      setPull(pullDistance, Math.max(-60, Math.min(60, dx)));
-      if (pullDistance >= pullThreshold && !pullFeedbackTriggered) {
-        pullFeedbackTriggered = true;
-        zone.classList.add("is-threshold");
-        if (
-          !reduce &&
-          (e.pointerType === "touch" || touch) &&
-          typeof navigator.vibrate === "function"
-        )
-          navigator.vibrate(12);
-      }
-      return;
-    }
-    if (!hoverSwing || e.pointerType !== "mouse" || reduce) return;
-    const bounds = zone.getBoundingClientRect();
-    const offset = e.clientX - (bounds.left + bounds.width / 2);
-    setSwing(offset * 0.11 + e.movementX * 0.2);
-  });
-  function end(e, canceled = false) {
-    if (!drag) return;
-    drag = false;
-    zone.classList.remove("is-pulling", "is-threshold");
-    if (!canceled && pullDistance >= pullThreshold) light();
-    zone.style.setProperty("--pull", "0px");
-    releaseSwing();
-    if (e && bulb.hasPointerCapture(e.pointerId))
-      bulb.releasePointerCapture(e.pointerId);
-  }
-  bulb.addEventListener("pointerup", end);
-  bulb.addEventListener("pointercancel", (e) => end(e, true));
-  bulb.addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown" && !about.classList.contains("lit")) {
-      e.preventDefault();
-      light();
-    }
-  });
-  bulb.addEventListener("dragstart", (e) => e.preventDefault());
 
   /* ---------- RENDER DATA ---------- */
   const escapeXml = (value) =>
@@ -419,9 +342,13 @@
   });
 
   $("#educationGrid").innerHTML = EDUCATION.map(
-    ([degree, field, level, institution, logo, logoAlt], i) => {
+    ([degree, field, level, institution, logo, logoAlt, collegeUrl], i) => {
       const locked = i > 0;
-      return `<article class="education-card reveal${locked ? " is-locked" : ""}" data-education-card data-delay="${i * 80}"${locked ? ' aria-hidden="true"' : ""}><div class="education-card-header"><span class="education-level">${level}</span><img class="education-logo" src="${logo}" alt="${logoAlt}" width="68" height="68" loading="eager" decoding="async" onerror="this.hidden = true"></div><div class="education-card-content"><h3>${degree}</h3><p>${field}</p><p class="education-institution">${institution}</p></div></article>`;
+      const logoImage = `<img class="education-logo" src="${logo}" alt="${logoAlt}" width="68" height="68" loading="eager" decoding="async" onerror="this.hidden = true">`;
+      const logoMarkup = collegeUrl
+        ? `<a class="education-logo-link" href="${collegeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Visit ${institution} website">${logoImage}</a>`
+        : logoImage;
+      return `<article class="education-card reveal${locked ? " is-locked" : ""}" data-education-card data-delay="${i * 80}"${locked ? ' aria-hidden="true"' : ""}><div class="education-card-header"><span class="education-level">${level}</span>${logoMarkup}</div><div class="education-card-content"><h3>${degree}</h3><p>${field}</p><p class="education-institution">${institution}</p></div></article>`;
     },
   ).join("");
 
@@ -568,18 +495,17 @@
       projectTrack.scrollLeft + projectTrack.clientWidth >=
       projectTrack.scrollWidth - 1;
   };
-  projectPrev.addEventListener("click", () =>
+  const slideProjects = (direction) => {
+    const firstSlide = $(".project-slide", projectTrack);
+    if (!firstSlide) return;
+    const gap = parseFloat(getComputedStyle(projectTrack).columnGap) || 0;
     projectTrack.scrollBy({
-      left: -(projectTrack.clientWidth + 24),
+      left: direction * (firstSlide.getBoundingClientRect().width + gap),
       behavior: reduce ? "auto" : "smooth",
-    }),
-  );
-  projectNext.addEventListener("click", () =>
-    projectTrack.scrollBy({
-      left: projectTrack.clientWidth + 24,
-      behavior: reduce ? "auto" : "smooth",
-    }),
-  );
+    });
+  };
+  projectPrev.addEventListener("click", () => slideProjects(-1));
+  projectNext.addEventListener("click", () => slideProjects(1));
   projectTrack.addEventListener("pointerdown", (event) => {
     if (event.pointerType !== "mouse" || event.button !== 0) return;
     if (event.target.closest("a, button")) return;
@@ -806,7 +732,8 @@
         }),
       { threshold: 0.4 },
     );
-    co.observe($("#stats"));
+    const stats = $("#stats");
+    if (stats) co.observe(stats);
   }
   startReveal();
 

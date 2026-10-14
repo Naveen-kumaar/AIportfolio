@@ -226,187 +226,216 @@
       </section>
 
       <!-- ABOUT -->
-      <section id="about" class="section">
-        <div class="bulb-zone" id="bulbZone">
-          <div class="bulb-mount" aria-hidden="true"></div>
-          <div class="bulb-pendulum" id="bulbPendulum">
-            <div class="wire" aria-hidden="true"></div>
-            <button
-              class="bulb"
-              id="bulb"
-              type="button"
-              aria-label="Drag the bulb down to reveal the About section"
-              aria-expanded="false"
-            >
-              <span class="bulb-shape" aria-hidden="true">
-                <span class="bulb-glass"></span>
-                <span class="bulb-base"></span>
-              </span>
-            </button>
+      <section id="about" class="section about-scene" aria-labelledby="aboutTitle">
+        <div class="about-layout container">
+          <div class="about-beam" aria-hidden="true"></div>
+          <button
+            class="about-light-switch"
+            id="aboutLightSwitch"
+            type="button"
+            aria-label="Turn studio lamp on"
+            aria-pressed="false"
+            aria-controls="aboutContent"
+          >
+            <span class="about-light-switch-label">Turn me on to reveal</span>
+            <span class="about-light-switch-state" id="aboutLightState">OFF</span>
+            <span class="about-switch-track" aria-hidden="true"><span></span></span>
+          </button>
+
+          <div class="about-lamp-stage" aria-hidden="true">
+            <div class="studio-lamp">
+              <span class="studio-lamp-arm"></span>
+              <span class="studio-lamp-shade"></span>
+              <span class="studio-lamp-bulb"></span>
+              <span class="studio-lamp-stem"></span>
+              <span class="studio-lamp-base"></span>
+              <span class="studio-lamp-reflection"></span>
+            </div>
+            <p class="about-lamp-caption">ABOUT LIGHT <span>01</span></p>
           </div>
-          <div class="glow" aria-hidden="true"></div>
-          <p class="hint">Drag the bulb down to reveal About</p>
-        </div>
-        <div class="container" aria-hidden="true" inert>
-          <h2 class="sec-title reveal">About me</h2>
-          <div class="row g-5 align-items-center">
-            <div class="col-lg-7 reveal">
-              <p class="big">
-                I am a passionate Python Full Stack Developer who enjoys turning
-                ideas into responsive websites, web applications and practical
-                software solutions.
-              </p>
-              <p class="muted">
-                My toolkit covers Python, Django, HTML, CSS, JavaScript, React,
-                Bootstrap and MySQL. I care about clean code, clear interfaces
-                and applications that are easy to use.
-              </p>
-              <div class="row g-3 mt-3" id="stats">
-                <div class="col-6 col-md-3">
-                  <div class="stat glass" data-tilt>
-                    <h3><span data-count="5">0</span>+</h3>
-                    <p>Projects Completed</p>
-                  </div>
+
+          <div
+            class="about-content"
+            id="aboutContent"
+            aria-hidden="true"
+            inert
+          >
+            <header class="about-heading" data-about-reveal style="--reveal-delay: 450ms">
+              <p class="about-eyebrow">A LITTLE ABOUT ME</p>
+              <h2 id="aboutTitle">About Me</h2>
+            </header>
+            <div class="about-content-grid">
+              <div class="about-story">
+                <p class="about-intro" data-about-reveal style="--reveal-delay: 650ms">
+                  I am Naveen Kumar, an entry-level Python Full Stack Developer
+                  passionate about creating modern, functional, and user-friendly
+                  web applications.
+                </p>
+                <p class="about-description" data-about-reveal style="--reveal-delay: 850ms">
+                  I enjoy turning thoughtful ideas into dependable digital
+                  experiences, from polished interfaces to practical backend
+                  solutions.
+                </p>
+                <div class="about-skills" data-about-reveal style="--reveal-delay: 1050ms">
+                  <h3>Tools I work with</h3>
+                  <ul aria-label="Technical skills">
+                    <li>Python</li>
+                    <li>Django</li>
+                    <li>MySQL</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                    <li>JavaScript</li>
+                    <li>React</li>
+                    <li>Bootstrap</li>
+                  </ul>
                 </div>
-                <div class="col-6 col-md-3">
-                  <div class="stat glass" data-tilt>
-                    <h3><span data-count="12">0</span>+</h3>
-                    <p>Technologies</p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-3">
-                  <div class="stat glass" data-tilt>
-                    <h3>Full Stack</h3>
-                    <p>Development Focus</p>
-                  </div>
-                </div>
-                <div class="col-6 col-md-3">
-                  <div class="stat glass" data-tilt>
-                    <h3>&infin;</h3>
-                    <p>Learning &amp; Growth</p>
-                  </div>
+                <div class="about-story-footer" data-about-reveal style="--reveal-delay: 1250ms">
+                  <p class="about-internship">
+                    <i class="bi bi-briefcase" aria-hidden="true"></i>
+                    Internship experience at <strong>Shanthi IT Solution</strong>
+                  </p>
+                  <a class="about-project-link" href="#projects">
+                    Explore my projects
+                    <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+                  </a>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-5 reveal" data-delay="150">
-              <div class="profile glass" data-tilt>
-                <div class="avatar">
+              <aside class="about-profile" data-about-reveal style="--reveal-delay: 900ms">
+                <div class="about-portrait">
                   <img
                     src="assets/images/IMG_9072.JPG"
                     alt="Portrait of Naveen Kumar"
+                    width="600"
+                    height="800"
                     loading="lazy"
-                    onerror="
-                      this.replaceWith(
-                        Object.assign(document.createElement('span'), {
-                          textContent: 'NK',
-                        }),
-                      )
-                    "
+                    decoding="async"
                   />
                 </div>
-                <h3>Naveen Kumar</h3>
-                <p class="muted mb-3">Python Full Stack Developer</p>
-                <ul class="facts">
-                  <li>
-                    <i class="bi bi-mortarboard"></i> M.Sc. in Information
-                    Technology
-                  </li>
-                  <li>
-                    <i class="bi bi-award"></i> Full-stack development
-                    certification
-                  </li>
-                  <li>
-                    <i class="bi bi-briefcase"></i> Internship at Shanthi IT Solution                  </li>
-                  <li><i class="bi bi-geo-alt"></i> India</li>
-                </ul>
-              </div>
+                <p class="about-profile-name">Naveen Kumar</p>
+                <p class="about-profile-role">Python Full Stack Developer</p>
+                <span class="about-profile-location">
+                  <i class="bi bi-geo-alt" aria-hidden="true"></i> Tamil Nadu, India
+                </span>
+              </aside>
             </div>
           </div>
         </div>
       </section>
 
       <!-- SKILLS -->
-      <section class="skills-showcase py-5" id="skills" aria-labelledby="skills-title">
-        <video
-          class="skills-background-video"
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="auto"
-          aria-hidden="true"
-          tabindex="-1"
-        >
-          <source src="skills/assets/background.mp4" type="video/mp4" />
-        </video>
-        <div class="skills-video-shade" aria-hidden="true"></div>
+      <section class="skills-showcase skills-book-section py-5" id="skills" aria-labelledby="skills-title">
         <div class="container">
           <header class="skills-heading text-center">
             <p class="skills-eyebrow">THE DEVELOPER TOOLKIT</p>
-            <h2 id="skills-title">My Technical Skills</h2>
+            <h2 id="skills-title">My Skills</h2>
+            <p class="skills-book-subtitle">Turning knowledge into practical solutions.</p>
           </header>
 
-          <div class="skills-stage" aria-label="Interactive skills showcase">
-            <svg class="connection-lines" viewBox="0 0 1000 660" aria-hidden="true">
-              <path d="M500 330 C390 255 255 180 115 135" />
-              <path d="M500 330 C500 225 500 145 500 72" />
-              <path d="M500 330 C610 255 745 180 885 135" />
-              <path d="M500 330 C650 330 780 330 920 330" />
-              <path d="M500 330 C630 400 760 490 870 545" />
-              <path d="M500 330 C500 425 500 505 500 585" />
-              <path d="M500 330 C370 400 240 490 130 545" />
-            </svg>
-
-            <div class="energy-arcs" aria-hidden="true"><i></i><i></i><i></i></div>
-            <div class="energy-sparks" aria-hidden="true">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+          <div class="skills-book-wrap">
+            <div class="skills-book" aria-label="Five-page book of skills" aria-roledescription="interactive book">
+              <div class="skills-book-left" aria-hidden="true">
+                <span class="skills-book-mark">NK</span>
+                <p class="skills-book-left-label">A PRACTICAL<br />FOUNDATION</p>
+                <span class="skills-book-left-rule"></span>
+                <p class="skills-book-left-note">Curiosity in.<br />Useful things out.</p>
+                <span class="skills-book-left-number">EST. 2026</span>
+              </div>
+              <div class="skills-book-spine" aria-hidden="true"></div>
+              <div class="skills-book-leaves" id="skillsBookPages" aria-label="Skill pages">
+                <article class="skills-book-leaf" data-page="0" aria-label="Page 1: Frontend Development">
+                  <div class="skills-book-leaf-front">
+                    <header class="skills-page-heading">
+                      <span class="skills-page-kicker">01 / THE INTERFACE</span>
+                      <h3>Frontend Development</h3>
+                      <p>Thoughtful, responsive experiences from the first line of markup.</p>
+                    </header>
+                    <ul class="skills-page-list">
+                      <li><img src="skills/assets/icons/html.svg" alt="" /><span>HTML5</span></li>
+                      <li><img src="skills/assets/icons/css.svg" alt="" /><span>CSS3</span></li>
+                      <li><img src="skills/assets/icons/javascript.svg" alt="" /><span>JavaScript</span></li>
+                      <li><img src="skills/assets/icons/react.svg" alt="" /><span>React</span></li>
+                      <li><img src="skills/assets/icons/bootstrap.svg" alt="" /><span>Bootstrap</span></li>
+                    </ul>
+                    <span class="skills-page-folio">01</span>
+                  </div>
+                  <div class="skills-book-leaf-back" aria-hidden="true"><span>NA V E E N&nbsp; K U M A R</span><b>KEEP BUILDING.</b></div>
+                </article>
+                <article class="skills-book-leaf" data-page="1" aria-label="Page 2: Backend Development">
+                  <div class="skills-book-leaf-front">
+                    <header class="skills-page-heading">
+                      <span class="skills-page-kicker">02 / THE ENGINE</span>
+                      <h3>Backend Development</h3>
+                      <p>Reliable application logic and clean, well-structured APIs.</p>
+                    </header>
+                    <ul class="skills-page-list">
+                      <li><img src="skills/assets/icons/python.svg" alt="" /><span>Python</span></li>
+                      <li><img src="skills/assets/icons/django.svg" alt="" /><span>Django REST Framework</span></li>
+                    </ul>
+                    <span class="skills-page-folio">02</span>
+                  </div>
+                  <div class="skills-book-leaf-back" aria-hidden="true"><span>NA V E E N&nbsp; K U M A R</span><b>KEEP BUILDING.</b></div>
+                </article>
+                <article class="skills-book-leaf" data-page="2" aria-label="Page 3: Database Management">
+                  <div class="skills-book-leaf-front">
+                    <header class="skills-page-heading">
+                      <span class="skills-page-kicker">03 / THE RECORD</span>
+                      <h3>Database Management</h3>
+                      <p>Organizing information so it stays useful, consistent, and accessible.</p>
+                    </header>
+                    <ul class="skills-page-list">
+                      <li><img src="skills/assets/icons/mysql.svg" alt="" /><span>MySQL</span></li>
+                      <li><img src="skills/assets/icons/sqlite.svg" alt="" /><span>SQLite</span></li>
+                    </ul>
+                    <span class="skills-page-folio">03</span>
+                  </div>
+                  <div class="skills-book-leaf-back" aria-hidden="true"><span>NA V E E N&nbsp; K U M A R</span><b>KEEP BUILDING.</b></div>
+                </article>
+                <article class="skills-book-leaf" data-page="3" aria-label="Page 4: Development Tools">
+                  <div class="skills-book-leaf-front">
+                    <header class="skills-page-heading">
+                      <span class="skills-page-kicker">04 / THE WORKBENCH</span>
+                      <h3>Development Tools</h3>
+                      <p>A dependable toolkit for building, refining, and shipping work.</p>
+                    </header>
+                    <ul class="skills-page-list">
+                      <li><img src="skills/assets/icons/vscode.svg" alt="" /><span>Visual Studio Code</span></li>
+                      <li><img src="skills/assets/icons/pycharm.svg" alt="" /><span>PyCharm</span></li>
+                      <li><img src="skills/assets/icons/git.svg" alt="" /><span>Git</span></li>
+                    </ul>
+                    <span class="skills-page-folio">04</span>
+                  </div>
+                  <div class="skills-book-leaf-back" aria-hidden="true"><span>NA V E E N&nbsp; K U M A R</span><b>KEEP BUILDING.</b></div>
+                </article>
+                <article class="skills-book-leaf" data-page="4" aria-label="Page 5: Professional Skills">
+                  <div class="skills-book-leaf-front">
+                    <header class="skills-page-heading">
+                      <span class="skills-page-kicker">05 / THE PRACTICE</span>
+                      <h3>Professional Skills</h3>
+                      <p>Good work is built with care, clear thinking, and other people.</p>
+                    </header>
+                    <ul class="skills-page-list">
+                      <li><img src="skills/assets/icons/problem-solving.svg" alt="" /><span>Problem Solving</span></li>
+                      <li><img src="skills/assets/icons/collaboration.svg" alt="" /><span>Team Collaboration</span></li>
+                      <li><img src="skills/assets/icons/analytical-thinking.svg" alt="" /><span>Analytical Thinking</span></li>
+                    </ul>
+                    <span class="skills-page-folio">05</span>
+                  </div>
+                  <div class="skills-book-leaf-back" aria-hidden="true"><span>NA V E E N&nbsp; K U M A R</span><b>KEEP BUILDING.</b></div>
+                </article>
+              </div>
             </div>
-
-            <button
-              class="skill-trigger"
-              type="button"
-              aria-label="Reveal technology skills"
-              aria-expanded="false"
-              aria-controls="portfolio-skill-items"
-            >
-              <img
-                class="skill-trigger-icon"
-                src="assets/icons/code.png"
-                alt=""
-              />
-              <span class="skill-trigger-label">Skills</span>
-            </button>
-
-            <div class="skill-items" id="portfolio-skill-items" aria-label="Technology skills">
-              <article class="skill-node skill-javascript">
-                <img src="skills/assets/icons/javascript.svg" alt="JavaScript logo" />
-                <h3>JavaScript</h3>
-              </article>
-              <article class="skill-node skill-html">
-                <img src="skills/assets/icons/html.svg" alt="HTML5 logo" />
-                <h3>HTML5</h3>
-              </article>
-              <article class="skill-node skill-css">
-                <img src="skills/assets/icons/css.svg" alt="CSS3 logo" />
-                <h3>CSS3</h3>
-              </article>
-              <article class="skill-node skill-react">
-                <img src="skills/assets/icons/react.svg" alt="React logo" />
-                <h3>React</h3>
-              </article>
-              <article class="skill-node skill-python">
-                <img src="skills/assets/icons/python.svg" alt="Python logo" />
-                <h3>Python</h3>
-              </article>
-              <article class="skill-node skill-django">
-                <img src="skills/assets/icons/django.svg" alt="Django logo" />
-                <h3>Django</h3>
-              </article>
-              <article class="skill-node skill-mysql">
-                <img src="skills/assets/icons/mysql.svg" alt="MySQL logo" />
-                <h3>MySQL</h3>
-              </article>
-            </div>
+            <nav class="skills-book-controls" aria-label="Skills book navigation">
+              <button class="skills-book-button" type="button" data-page-direction="-1" aria-label="Previous page">
+                <i class="bi bi-arrow-left" aria-hidden="true"></i><span>Previous Page</span>
+              </button>
+              <div class="skills-book-progress">
+                <span class="skills-book-indicator" aria-live="polite">Page 1 of 5</span>
+                <span class="skills-book-progress-track" aria-hidden="true"><span></span></span>
+              </div>
+              <button class="skills-book-button skills-book-button-next" type="button" data-page-direction="1" aria-label="Next page">
+                <span>Next Page</span><i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </button>
+            </nav>
           </div>
         </div>
       </section>
@@ -417,7 +446,7 @@
           <h2 class="sec-title reveal">Projects</h2>
           <div class="project-carousel reveal">
             <div class="project-controls" aria-label="Project navigation">
-              <p class="muted">Drag the cards or icon to explore projects</p>
+              <p class="muted">Use the arrows to browse one project at a time, or drag to explore</p>
               <div>
                 <button
                   class="carousel-control"
