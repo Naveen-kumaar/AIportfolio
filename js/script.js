@@ -6,29 +6,6 @@
   "use strict";
 
   /* ---------- DATA (easy to customize) ---------- */
-  const SKILLS = {
-    Frontend: [
-      ["bi-filetype-html", "HTML5", "Semantic, accessible markup"],
-      ["bi-filetype-css", "CSS3", "Flexbox, Grid and animations"],
-      ["bi-filetype-js", "JavaScript", "Interactive, dynamic interfaces"],
-      ["bi-bootstrap", "Bootstrap", "Responsive layouts, fast"],
-      ["bi-lightning-charge", "React", "Component-based UI basics"],
-    ],
-    Backend: [
-      ["bi-filetype-py", "Python", "Clean, readable application logic"],
-      ["bi-hdd-network", "Django", "Full-featured web apps and auth"],
-    ],
-    Database: [
-      ["bi-database", "MySQL", "Relational design and queries"],
-      ["bi-database-fill", "SQLite", "Lightweight local storage"],
-    ],
-    Tools: [
-      ["bi-git", "Git", "Version control workflow"],
-      ["bi-github", "GitHub", "Collaboration and hosting"],
-      ["bi-code-square", "VS Code", "Daily editor"],
-      ["bi-terminal", "PyCharm", "Python IDE"],
-    ],
-  };
   const PROJECTS = [
       {
       t: "Billing software website",
@@ -38,14 +15,14 @@
         "assets/images/bilbook2.png",
         "assets/images/billbook3.png",
       ],
-      repo: "https://github.com/Naveen-kumaar/PatientDetailsManagement",
+      repo: "https://github.com/Naveen-kumaar/YourBillBook",
       tech: ["Python", "Django_rest", "HTML","javascript","react", "CSS", "Bootstrap", "MySQL"],
       f: [
-        "bill booking",
-        "Search",
-        "Appointment management",
+        "Create and manage bills",
+        "Search billing records",
+        "Organize customer transactions",
         "Authentication",
-        "Responsive interface",
+        "Responsive billing interface",
       ],
     },
         {
@@ -57,8 +34,13 @@
         "assets/images/Qucikkart3.png",
       ],
       repo: "https://github.com/Naveen-kumaar/Clonewebpage",
-      tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
-      f: [],
+      tech: ["HTML", "CSS", "JavaScript", "Bootstrap","python","mysql"],
+      f: [
+        "Browse products and categories",
+        "Explore product details",
+        "Interactive shopping interface",
+        "Responsive ecommerce layout",
+      ],
     },
     
     {
@@ -70,8 +52,13 @@
         "assets/images/travel3.png",
       ],
       repo: "https://github.com/Naveen-kumaar/Clonewebpage",
-      tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
-      f: [],
+      tech: ["HTML", "CSS", "JavaScript","react", "Bootstrap","python","mysql"],
+      f: [
+        "Explore travel and ticket options",
+        "Browse trip information",
+        "Streamlined booking experience",
+        "Responsive booking interface",
+      ],
     },
     {
       t: "E-Commerce Website",
@@ -131,7 +118,12 @@
       repo: "https://github.com/Naveen-kumaar/Official_Portfolio",
       demo: "https://official-portfolio-opal.vercel.app",
       tech: ["HTML", "CSS", "JavaScript", "Bootstrap"],
-      f: [],
+      f: [
+        "Showcase projects and skills",
+        "Explore profile and education",
+        "Responsive portfolio layout",
+        "Quick contact and social links",
+      ],
     },
 
   ];
@@ -395,33 +387,6 @@
   const projectImages = (project) =>
     project.images || project.c.map((_, frame) => thumb(project, frame));
 
-  const skillsWrap = $("#skillsWrap");
-  if (skillsWrap)
-    skillsWrap.innerHTML = Object.entries(SKILLS)
-      .map(
-        ([group, items], groupIndex) => `
-        <article class="skill-group" aria-labelledby="skill-group-${groupIndex}">
-          <header class="skill-group-heading">
-            <span class="skill-group-index">${String(groupIndex + 1).padStart(2, "0")}</span>
-            <h3 id="skill-group-${groupIndex}">${group}</h3>
-            <span class="skill-group-count">${String(items.length).padStart(2, "0")} tools</span>
-          </header>
-          <ul class="skill-list">
-            ${items
-              .map(
-                ([icon, name, description]) => `
-                  <li class="skill-item">
-                    <span class="skill-icon" aria-hidden="true"><i class="bi ${icon}"></i></span>
-                    <span class="skill-copy"><strong>${name}</strong><small>${description}</small></span>
-                    <i class="bi bi-arrow-up-right skill-item-arrow" aria-hidden="true"></i>
-                  </li>`,
-              )
-              .join("")}
-          </ul>
-        </article>`,
-      )
-      .join("");
-
   $("#projectGrid").innerHTML = PROJECTS.map(
     (p, i) => {
       const images = projectImages(p);
@@ -497,7 +462,8 @@
   let educationDrag = false,
     educationStartY = 0,
     educationPullDistance = 0,
-    educationUnlocked = false;
+    educationUnlocked = false,
+    suppressEducationClick = false;
   const setEducationIcon = (state) => {
     const images = {
       idle: "assets/images/sad.gif",
@@ -512,41 +478,46 @@
     educationPullZone.style.setProperty("--pull-progress", progress / 100);
   };
 
-  const unlockEducation = () => {
-    if (educationUnlocked) return;
-    educationUnlocked = true;
-    $("#educationGrid").classList.add("is-unlocked");
-    educationPullZone.classList.add("is-unlocked");
-    educationPullZone.setAttribute("aria-expanded", "true");
+  const setEducationExpanded = (expanded) => {
+    educationUnlocked = expanded;
+    $("#educationGrid").classList.toggle("is-unlocked", expanded);
+    educationPullZone.classList.toggle("is-unlocked", expanded);
+    educationPullZone.setAttribute("aria-expanded", String(expanded));
     educationPullZone.setAttribute(
       "aria-label",
-      "Education entries revealed. All qualifications are visible.",
+      expanded
+        ? "Drag up to hide the additional education entries"
+        : "Drag down to reveal the remaining education entries",
     );
-    educationCards.forEach((card) => {
-      card.classList.remove("is-locked");
-      card.classList.add("is-unlocked");
-      card.setAttribute("aria-hidden", "false");
+    educationCards.forEach((card, index) => {
+      if (index === 0) return;
+      card.classList.toggle("is-locked", !expanded);
+      card.classList.toggle("is-unlocked", expanded);
+      card.setAttribute("aria-hidden", String(!expanded));
     });
-    setEducationIcon("unlocked");
+    setEducationIcon(expanded ? "unlocked" : "idle");
     educationPullZone.querySelector(".education-pull-title").textContent =
-      "Qualifications unlocked";
-    setEducationProgress(100);
+      expanded ? "Drag up to hide entries" : "Drag down to reveal entries";
+    const arrow = $(".education-pull-icon i", educationPullZone);
+    arrow.classList.toggle("bi-arrow-up", expanded);
+    arrow.classList.toggle("bi-arrow-down", !expanded);
+    setEducationProgress(expanded ? 100 : 0);
     AOS.refreshHard();
   };
 
   const resetEducationPull = () => {
     educationPullZone.style.transform = "";
-    setEducationProgress(0);
+    setEducationProgress(educationUnlocked ? 100 : 0);
     educationDrag = false;
     educationPullDistance = 0;
     educationPullZone.classList.remove("is-dragging");
     educationIconWrap.style.removeProperty("--emoji-x");
     educationIconWrap.style.removeProperty("--emoji-y");
-    setEducationIcon("idle");
+    setEducationIcon(educationUnlocked ? "unlocked" : "idle");
   };
 
   educationPullZone.addEventListener("pointerdown", (event) => {
-    if (educationUnlocked || event.button !== 0) return;
+    if (event.button !== 0) return;
     educationDrag = true;
     educationStartY = event.clientY;
     educationPullDistance = 0;
@@ -558,18 +529,18 @@
   educationPullZone.addEventListener("pointermove", (event) => {
     if (!educationDrag) return;
     const distance = event.clientY - educationStartY;
-    educationPullDistance = Math.max(0, Math.min(distance, 150));
+    educationPullDistance = Math.max(-150, Math.min(distance, 150));
     const resistance = 0.72;
     const offset = educationPullDistance * resistance;
     educationPullZone.style.transform = `translate3d(0, ${offset}px, 0)`;
-    setEducationProgress((educationPullDistance / 150) * 100);
+    setEducationProgress((Math.abs(educationPullDistance) / 150) * 100);
     educationIconWrap.style.setProperty(
       "--emoji-x",
-      `${Math.min(10, educationPullDistance * 0.07)}px`,
+      `${Math.sign(educationPullDistance) * Math.min(10, Math.abs(educationPullDistance) * 0.07)}px`,
     );
     educationIconWrap.style.setProperty(
       "--emoji-y",
-      `${Math.min(16, educationPullDistance * 0.1)}px`,
+      `${Math.sign(educationPullDistance) * Math.min(16, Math.abs(educationPullDistance) * 0.1)}px`,
     );
   });
 
@@ -580,27 +551,27 @@
     if (educationPullZone.hasPointerCapture(event.pointerId))
       educationPullZone.releasePointerCapture(event.pointerId);
 
-    if (educationPullDistance >= 120) {
-      unlockEducation();
-      educationPullZone.style.transform = "";
-    } else {
-      resetEducationPull();
+    const shouldToggle =
+      Math.abs(educationPullDistance) >= 120 &&
+      (educationUnlocked ? educationPullDistance < 0 : educationPullDistance > 0);
+    const nextExpanded = !educationUnlocked;
+    if (Math.abs(educationPullDistance) >= 120) {
+      suppressEducationClick = true;
+      window.setTimeout(() => {
+        suppressEducationClick = false;
+      }, 0);
     }
+    resetEducationPull();
+    if (shouldToggle) setEducationExpanded(nextExpanded);
   });
 
   educationPullZone.addEventListener("pointercancel", resetEducationPull);
-  educationPullZone.addEventListener("keydown", (event) => {
-    if (educationUnlocked) return;
-    if (event.key === "Enter" || event.key === " ") {
+  educationPullZone.addEventListener("click", (event) => {
+    if (suppressEducationClick) {
       event.preventDefault();
-      educationPullZone.style.transform = "translate3d(0, 72px, 0)";
-      setEducationProgress(48);
-      setEducationIcon("pulling");
-      window.setTimeout(() => {
-        unlockEducation();
-        educationPullZone.style.transform = "";
-      }, 320);
+      return;
     }
+    setEducationExpanded(!educationUnlocked);
   });
 
   educationStage.addEventListener("pointermove", (event) => {

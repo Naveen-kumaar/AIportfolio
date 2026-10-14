@@ -1372,98 +1372,6 @@ img {
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-/* Skills */
-#skillsWrap {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
-}
-.skill-group {
-  min-width: 0;
-  padding: 1.35rem 1.5rem;
-  border: 1px solid var(--bd);
-  border-radius: var(--r);
-  background:
-    linear-gradient(145deg, rgba(var(--a1-rgb), 0.07), transparent 55%),
-    var(--bg2);
-  box-shadow: var(--shadow);
-}
-.skill-group-heading {
-  display: flex;
-  align-items: baseline;
-  gap: 0.7rem;
-  padding-bottom: 0.9rem;
-  border-bottom: 1px solid var(--bd);
-}
-.skill-group-heading h3 {
-  margin: 0;
-  font-size: 1.15rem;
-}
-.skill-group-index,
-.skill-group-count {
-  color: var(--muted);
-  font: 500 0.7rem var(--f-body);
-  letter-spacing: 0.1em;
-}
-.skill-group-count {
-  margin-left: auto;
-}
-.skill-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.skill-item {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  gap: 0.85rem;
-  padding: 0.85rem 0;
-  border-bottom: 1px solid var(--bd);
-}
-.skill-item:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-.skill-icon {
-  display: grid;
-  width: 40px;
-  height: 40px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid var(--bd);
-  border-radius: 11px;
-  background: rgba(var(--a1-rgb), 0.1);
-  color: var(--cyan);
-}
-.skill-icon i {
-  font-size: 1.2rem;
-}
-.skill-copy {
-  display: grid;
-  min-width: 0;
-  gap: 0.15rem;
-}
-.skill-copy strong {
-  font: 600 0.92rem var(--f-head);
-}
-.skill-copy small {
-  color: var(--muted);
-  font-size: 0.76rem;
-  line-height: 1.4;
-}
-.skill-item-arrow {
-  margin-left: auto;
-  color: var(--a1);
-  opacity: 0;
-  transform: translate(-3px, 3px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-}
-.skill-item:hover .skill-item-arrow {
-  opacity: 1;
-  transform: none;
-}
-
 /* Projects */
 .project-carousel {
   position: relative;
@@ -2686,13 +2594,6 @@ img {
     right: 0.7rem;
     width: 24px;
     height: 24px;
-  }
-  #skillsWrap {
-    grid-template-columns: 1fr;
-    gap: 0.9rem;
-  }
-  .skill-group {
-    padding: 1.1rem;
   }
   .fab-wa,
   .fab-top {
