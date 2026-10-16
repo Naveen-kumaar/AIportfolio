@@ -3,14 +3,14 @@
   --book-muted: #696969;
   --book-line: #e6e4e0;
   --book-paper: #fffefa;
-  padding: clamp(4.5rem, 9vw, 7rem) 0;
+  padding: clamp(3.5rem, 6vw, 5rem) 0;
   overflow: hidden;
   background: #f5f4f1;
   color: var(--book-ink);
 }
 
 .skills-heading {
-  margin: 0 auto 2.4rem;
+  margin: 0 auto 1.6rem;
   text-align: center;
 }
 
@@ -439,7 +439,7 @@
 
 @media (max-width: 700px) {
   .skills-section {
-    padding: 4rem 0;
+    padding: 3.25rem 0;
   }
 
   .skills-heading {

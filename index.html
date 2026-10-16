@@ -453,39 +453,45 @@
       </section>
 
       <!-- PROJECTS -->
-      <section id="projects" class="section">
+      <section id="projects" class="section projects-section" aria-labelledby="projects-title">
         <div class="container">
-          <h2 class="sec-title reveal">Projects</h2>
+          <p class="projects-eyebrow">SELECTED WORK · 2026</p>
+          <h2 class="sec-title reveal" id="projects-title">Projects</h2>
           <div class="project-carousel reveal">
-            <div class="project-controls" aria-label="Project navigation">
-              <p class="muted">Use the arrows to browse one project at a time, or drag to explore</p>
-              <div>
-                <button
-                  class="carousel-control"
-                  id="projectPrev"
-                  type="button"
-                  aria-label="Show previous projects"
-                  disabled
-                >
-                  <i class="bi bi-arrow-left"></i>
-                </button>
-                <button
-                  class="carousel-control"
-                  id="projectNext"
-                  type="button"
-                  aria-label="Show next projects"
-                >
-                  <i class="bi bi-arrow-right"></i>
-                </button>
-              </div>
+            <div class="project-controls">
+              <p class="muted">A selection of thoughtful digital experiences. Drag or use the arrows to explore.</p>
             </div>
             <div class="project-track-wrap">
-              <div
-                class="project-track"
-                id="projectGrid"
-                tabindex="0"
-                aria-label="Projects, drag or scroll horizontally"
-              ></div>
+              <button
+                class="carousel-control"
+                id="projectPrev"
+                type="button"
+                aria-label="Show previous project"
+                disabled
+              >
+                <i class="bi bi-arrow-left" aria-hidden="true"></i>
+              </button>
+              <div class="project-track-viewport">
+                <div
+                  class="project-track"
+                  id="projectGrid"
+                  tabindex="0"
+                  role="group"
+                  aria-label="Project carousel. Use left and right arrow keys to navigate."
+                ></div>
+              </div>
+              <button
+                class="carousel-control"
+                id="projectNext"
+                type="button"
+                aria-label="Show next project"
+              >
+                <i class="bi bi-arrow-right" aria-hidden="true"></i>
+              </button>
+            </div>
+            <div class="project-pagination">
+              <div class="project-dots" id="projectDots" role="group" aria-label="Choose a project"></div>
+              <p class="project-counter" id="projectCounter" aria-live="polite"></p>
             </div>
           </div>
 
@@ -508,52 +514,92 @@
         </dialog>
       </section>
 
-      <!-- EDUCATION -->
-      <section id="education" class="section education-section">
+      <!-- MY JOURNEY -->
+      <section id="education" class="section journey-section" aria-labelledby="journey-title">
         <div class="container">
-          <div class="education-heading reveal">
-            <div>
-              <p class="hello">Academic journey</p>
-              <h2 class="sec-title">Education</h2>
+          <header class="journey-heading reveal">
+            <p class="journey-kicker">A PATH OF LEARNING &amp; PRACTICE</p>
+            <h2 class="sec-title" id="journey-title">My Journey</h2>
+            <p class="journey-subtitle">Every step builds the developer I am becoming.</p>
+            <div class="journey-focus" aria-live="polite" aria-atomic="true">
+              <span class="journey-focus-dot" aria-hidden="true"></span>
+              <span class="journey-focus-label">In focus</span>
+              <strong id="journeyActiveStage">Pull down to explore</strong>
             </div>
-            <p class="education-intro">
-              Drag the handle down to reveal your full academic journey.
-            </p>
-          </div>
+            <span class="journey-divider" aria-hidden="true"></span>
+          </header>
 
-          <div class="education-stage" id="educationStage">
-            <div class="education-grid" id="educationGrid">
-              
+          <div class="journey-explorer">
+          <button
+            class="education-pull-zone journey-reveal-control"
+            id="educationPullZone"
+            type="button"
+            aria-label="Drag down to reveal the education and experience journeys"
+            aria-expanded="false"
+            aria-controls="journeyContent"
+          >
+            <span class="education-pull-content">
+              <span class="education-icon-wrap" aria-hidden="true">
+                <img
+                  class="education-icon"
+                  id="educationIcon"
+                  src="assets/images/sad.gif"
+                  alt=""
+                  width="34"
+                  height="34"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              <span class="education-pull-title">Pull down to explore my journey</span>
+            </span>
+            <span class="education-pull-icon" aria-hidden="true">
+              <i class="bi bi-arrow-down"></i>
+            </span>
+          </button>
+
+          <div class="journey-content" id="journeyContent" aria-hidden="true" inert>
+            <div class="journey-content-inner">
+              <div class="journey-columns">
+                <section class="journey-panel journey-panel-education" data-journey-name="Education" aria-labelledby="journeyEducationTitle">
+                  <header class="journey-panel-heading">
+                    <span class="journey-panel-index">01</span>
+                    <div>
+                      <p class="journey-panel-label">EDUCATION</p>
+                      <h3 id="journeyEducationTitle">Learning, step by step</h3>
+                    </div>
+                  </header>
+                  <div class="journey-education-viewport" id="educationScrollViewport" role="region" aria-label="Scrollable education milestones" tabindex="0">
+                    <ol class="journey-timeline journey-timeline-education" id="educationTimeline" aria-label="Education milestones"></ol>
+                  </div>
+                </section>
+
+                <section class="journey-panel journey-panel-experience" data-journey-name="Experience" aria-labelledby="journeyExperienceTitle">
+                  <header class="journey-panel-heading">
+                    <span class="journey-panel-index">02</span>
+                    <div>
+                      <p class="journey-panel-label">EXPERIENCE &amp; PROJECTS</p>
+                      <h3 id="journeyExperienceTitle">Growing through practice</h3>
+                    </div>
+                  </header>
+                  <div class="experience-carousel" id="experienceCarousel">
+                    <div class="experience-orbit" id="experienceTimeline" role="region" aria-label="Experience and selected project cards" aria-roledescription="carousel" tabindex="0">
+                      <div class="experience-orbit-stage" id="experienceOrbitStage" aria-live="off"></div>
+                    </div>
+                    <div class="experience-carousel-controls" aria-label="Experience carousel controls">
+                      <button class="experience-carousel-arrow" id="experiencePrev" type="button" aria-label="Show previous experience card">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                      </button>
+                      <p class="experience-carousel-status" id="experienceCarouselStatus" aria-live="polite"></p>
+                      <button class="experience-carousel-arrow" id="experienceNext" type="button" aria-label="Show next experience card">
+                        <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              </div>
             </div>
-
-            <button
-              class="education-pull-zone"
-              id="educationPullZone"
-              type="button"
-              aria-label="Drag down to reveal the remaining education entries"
-              aria-expanded="false"
-            >
-              <div class="education-pull-content">
-                <div class="education-icon-wrap" aria-hidden="true">
-                  <img
-                    class="education-icon"
-                    id="educationIcon"
-                    src="assets/images/sad.gif"
-                    alt=""
-                    width="34"
-                    height="34"
-                    loading="eager"
-                    decoding="async"
-                  />
-                </div>
-                <div class="education-pull-label">
-                  <p class="education-pull-title">pull me down</p>
-                </div>
-              </div>
-              <div class="education-pull-icon" aria-hidden="true">
-                <i class="bi bi-arrow-down"></i>
-              </div>
-            </button>
           </div>
         </div>
       </section>
